@@ -50,7 +50,7 @@ void Game::mainLoop()
 {
 	AVIstream* back = new AVIstream("villagehq.avi");
 	TextObject* text = new TextObject("This is a whole bunch of text.\nIt even has a line break!\nDo you like it?", 12, vec2(200, 400));
-	TextObject* bigText = new TextObject("Large text!", 18, vec2(300, 200));
+	TextObject* bigText = new TextObject("Large text!", 26, vec2(300, 200));
 	TextObject* fpsCounter = new TextObject("Lol", 16, vec2(20, 20));
 	TextObject* latestClick = new TextObject("Lol", 16, vec2(20, 36));
 	textObjects.push_back(text);

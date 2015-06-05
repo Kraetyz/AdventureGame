@@ -3,7 +3,7 @@
 AVIstream::AVIstream(std::string filePath)
 {
 	hdd = DrawDibOpen();
-	openAVI(filePath); // Open The AVI File
+	openAVI(string("Media/AVI/").append(filePath)); // Open The AVI File
 
 	// Create The Texture
 	genTexture();

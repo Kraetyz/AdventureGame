@@ -208,7 +208,7 @@ void Engine::RenderText(TextObject* text)
 bool Engine::loadPNG(string filePath, GLuint &texture)
 {
 	int x, y, compress;
-	GLubyte* image = stbi_load(filePath.c_str(), &x, &y, &compress, 0); //change the last 0 to 1
+	GLubyte* image = stbi_load((string("Media/PNG/").append(filePath)).c_str(), &x, &y, &compress, 0); //change the last 0 to 1
 
 	if (image == nullptr)
 		throw(std::string("Failed to load texture"));
