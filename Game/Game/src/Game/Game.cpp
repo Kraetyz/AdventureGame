@@ -2,6 +2,8 @@
 #include "../Engine/TextObject.h"
 #include <sstream>
 
+#include "../Settings.h"
+
 #include <ctime>
 
 int Game::cursorMessage = -1;
@@ -17,15 +19,12 @@ void Game::cursorCallback(GLFWwindow* window, int button, int action, int mods)
 	}
 }
 
-Game::Game(GLFWwindow* window, int width, int height)
+Game::Game(GLFWwindow* window)
 {
 	wnd = window;
 	glfwSetMouseButtonCallback(window, cursorCallback);
 
 	engine = new Engine();
-
-	WIDTH = width;
-	HEIGHT = height;
 }
 
 Game::~Game()
@@ -37,26 +36,23 @@ int Game::update(float dT)
 {
 	if (cursorMessage == GLFW_MOUSE_BUTTON_LEFT)
 	{
-		stringstream ss;
-		ss << "Clicked at position (" << cursorX << ", " << cursorY << ")";
-		textObjects[3]->setText(ss.str());
 		printf("Click! Cursor position is (%f, %f)\n", cursorX, cursorY);
 		cursorMessage = -1;
+
+		currentScene->sceneClick(0, 0);
+	}
+	if (cursorMessage == GLFW_MOUSE_BUTTON_RIGHT)
+	{
+		cursorMessage = -1;
+		currentScene->sceneClick(1, 0);
 	}
 	return 0;
 }
 
 void Game::mainLoop()
 {
-	AVIstream* back = new AVIstream("villagehq.avi");
-	TextObject* text = new TextObject("This is a whole bunch of text.\nIt even has a line break!\nDo you like it?", 12, vec2(200, 400));
-	TextObject* bigText = new TextObject("Large text!", 26, vec2(300, 200));
-	TextObject* fpsCounter = new TextObject("Lol", 16, vec2(20, 20));
-	TextObject* latestClick = new TextObject("Lol", 16, vec2(20, 36));
-	textObjects.push_back(text);
-	textObjects.push_back(bigText);
-	textObjects.push_back(fpsCounter);
-	textObjects.push_back(latestClick);
+	currentScene = new Scene();
+
 	clock_t start = clock();
 	float deltaTime = 0.0f;
 	float clock;
@@ -70,15 +66,7 @@ void Game::mainLoop()
 		lastClock = clock;
 
 		update(deltaTime);
-		stringstream ss;
-		ss << "FPS: " << int(1/(deltaTime));
-		textObjects[2]->setText(ss.str());
-		engine->Render(deltaTime, back, textObjects);
+		engine->Render(deltaTime, currentScene->getBackground(), currentScene->getText());
 		glfwSwapBuffers(wnd);
 	}
-	delete back;
-	delete text;
-	delete bigText;
-	delete fpsCounter;
-	delete latestClick;
 }

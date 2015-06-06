@@ -3,6 +3,7 @@
 #include <glm/glm.hpp>
 
 #include "DebugLog.h"
+#include "Settings.h"
 
 #pragma comment(lib, "glfw3.lib")
 #pragma comment(lib, "opengl32.lib")
@@ -34,12 +35,14 @@ int main(int argv, char* argc[])
 
 	glfwWindowHint(GLFW_RESIZABLE, false);
 
-	wnd = glfwCreateWindow(800, 600, "Smalltown Adventure", NULL, NULL);
+	Settings s = Settings(1200, 800);
+
+	wnd = glfwCreateWindow(Settings::getWidth(), Settings::getHeight(), "Smalltown Adventure", NULL, NULL);
 
 	glfwMakeContextCurrent(wnd);
 	glewInit();
 
-	Game* game = new Game(wnd, 800, 600);
+	Game* game = new Game(wnd);
 	glfwSwapInterval(1);
 	game->mainLoop();
 

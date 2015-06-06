@@ -4,7 +4,7 @@ TextObject::TextObject(string str, int fontSize, vec2 screenPos)
 {
 	size = fontSize;
 
-	screenPos.y = 600 - screenPos.y;
+	screenPos.y = Settings::getHeight() - screenPos.y;
 	pos = screenPos;
 
 	setupText(str, screenPos);
@@ -28,18 +28,19 @@ void TextObject::setupText(string str, vec2 screenPos)
 		char character = str[c];
 		if (character != '\n')
 		{
+			vec2 halfScreen = vec2(Settings::getWidth() / 2, Settings::getHeight() / 2);
 			vertex_up_right = vec2(screenPos.x + (c - lineBreakPos)*size + size, screenPos.y + size - (size)*nrOfLineBreaks);
-			vertex_up_right -= vec2(400, 300);
-			vertex_up_right /= vec2(400, 300);
+			vertex_up_right -= halfScreen;
+			vertex_up_right /= halfScreen;
 			vertex_down_right = vec2(screenPos.x + (c - lineBreakPos)*size + size, screenPos.y - (size)*nrOfLineBreaks);
-			vertex_down_right -= vec2(400, 300);
-			vertex_down_right /= vec2(400, 300);
+			vertex_down_right -= halfScreen;
+			vertex_down_right /= halfScreen;
 			vertex_up_left = vec2(screenPos.x + (c - lineBreakPos)*size, screenPos.y + size - (size)*nrOfLineBreaks);
-			vertex_up_left -= vec2(400, 300);
-			vertex_up_left /= vec2(400, 300);
+			vertex_up_left -= halfScreen;
+			vertex_up_left /= halfScreen;
 			vertex_down_left = vec2(screenPos.x + (c - lineBreakPos)*size, screenPos.y - (size)*nrOfLineBreaks);
-			vertex_down_left -= vec2(400, 300);
-			vertex_down_left /= vec2(400, 300);
+			vertex_down_left -= halfScreen;
+			vertex_down_left /= halfScreen;
 
 			float uv_x = (character % 16) / 16.0f;
 			float uv_y = (character / 16) / 16.0f;

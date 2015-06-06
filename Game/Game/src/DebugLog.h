@@ -1,7 +1,7 @@
 //Credits to Oscar Roosvall
 #ifndef DEBUGLOG_HPP
 #define DEGUBLOG_HPP
-
+#include "Settings.h"
 #include <fstream>
 namespace Debug
 {

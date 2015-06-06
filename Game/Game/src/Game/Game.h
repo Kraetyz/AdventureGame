@@ -4,6 +4,7 @@
 #include "../DebugLog.h"
 #include "../Engine/Engine.h"
 #include "../Engine/AVIstream.h"
+#include "Scene.h"
 
 #include <GL\glew.h>
 #include <GLFW\glfw3.h>
@@ -23,12 +24,9 @@ private:
 
 	int update(float dT);
 
-	int WIDTH;
-	int HEIGHT;
-
-	vector<TextObject*> textObjects;
+	Scene* currentScene;
 public:
-	Game(GLFWwindow* window, int width, int height);
+	Game(GLFWwindow* window);
 	~Game();
 	void mainLoop();
 };

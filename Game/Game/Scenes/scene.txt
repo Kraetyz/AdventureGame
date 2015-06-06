@@ -1,0 +1,44 @@
+/Comment line
+!
+.
+Hello friend. I am happy to see you.
+Line break, perhaps?
+#
+.
+This is first option.
+#
+%
+GOTO 1
+#
+.
+This is second option.
+#
+%
+GOTO 2
+#
+!
+/Option 1 below
+!
+.
+You have reached option 1.
+#
+!
+/Option 2 below
+!
+.
+You have reached option 2.
+#
+.
+Continue
+#
+%
+GOTO 3
+#
+!
+/Option 3
+!
+.
+You got to option 3! :D
+#
+!
+;
