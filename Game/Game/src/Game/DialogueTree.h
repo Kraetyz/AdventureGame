@@ -5,6 +5,7 @@
 #include "Dialogue.h"
 
 #include <vector>
+#include <fstream>
 
 #include <GL\glew.h>
 #include <GLFW\glfw3.h>
@@ -22,7 +23,7 @@ public:
 
 	vector<TextObject*> getCurrentDialogueText();
 
-	vector<string>* dialogueOptionChosen(int index);
+	vector<string> dialogueOptionChosen(int index);
 
 	int currentNrOfOptions()
 	{

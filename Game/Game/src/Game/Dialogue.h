@@ -30,7 +30,7 @@ public:
 	{
 		return text.size() - 1;
 	}
-	vector<string>* getMessagesForOption(int optionIndex);
+	vector<string> getMessagesForOption(int optionIndex);
 	vector<TextObject*> getAllText();
 };
 

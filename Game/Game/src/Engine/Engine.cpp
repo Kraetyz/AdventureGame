@@ -1,5 +1,4 @@
 #include "Engine.h"
-#include <fstream>
 #include <stb_image.h>
 
 #define BUFFER_OFFSET(i) ((char *)nullptr + (i))

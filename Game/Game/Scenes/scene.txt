@@ -16,11 +16,23 @@ This is second option.
 %
 GOTO 2
 #
+.
+Maybe you'd prefer this instead?
+#
+%
+GOTO 4
+#
 !
 /Option 1 below
 !
 .
 You have reached option 1.
+#
+.
+Go back to start.
+#
+%
+GOTO 0
 #
 !
 /Option 2 below
@@ -34,11 +46,37 @@ Continue
 %
 GOTO 3
 #
+.
+Go back to start.
+#
+%
+GOTO 0
+#
 !
 /Option 3
 !
 .
 You got to option 3! :D
+#
+.
+Go back to start.
+#
+%
+GOTO 0
+#
+!
+/Option 4
+!
+.
+This is the fourth option.
+To be honest, I'm not sure why you're here.
+Isn't it cool, though?
+#
+.
+Go back to start.
+#
+%
+GOTO 0
 #
 !
 ;

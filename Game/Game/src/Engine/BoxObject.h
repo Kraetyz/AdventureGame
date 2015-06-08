@@ -21,6 +21,10 @@ public:
 	BoxObject(vec2 topRight, vec2 botLeft, int thickness, vec4 &color);
 	~BoxObject();
 	void getBoxAttributes(vec4 &color, vec4 &borders, float* &quad);
+	vec4 getBorders()
+	{
+		return borders;
+	}
 };
 
 #endif

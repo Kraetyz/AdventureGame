@@ -29,6 +29,7 @@ Game::Game(GLFWwindow* window)
 
 Game::~Game()
 {
+	delete currentScene;
 	delete engine;
 }
 
@@ -39,12 +40,11 @@ int Game::update(float dT)
 		printf("Click! Cursor position is (%f, %f)\n", cursorX, cursorY);
 		cursorMessage = -1;
 
-		currentScene->sceneClick(0, 0);
+		currentScene->sceneClick(cursorX, cursorY);
 	}
 	if (cursorMessage == GLFW_MOUSE_BUTTON_RIGHT)
 	{
-		cursorMessage = -1;
-		currentScene->sceneClick(1, 0);
+		
 	}
 	engine->Render(dT, currentScene->getBackground(), currentScene->getText(), currentScene->getBoxes());
 	return 0;

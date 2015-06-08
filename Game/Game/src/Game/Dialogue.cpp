@@ -70,9 +70,9 @@ vec2 Dialogue::getScreenPosForText()
 		return vec2(Settings::getWidth()/8, (2*Settings::getHeight())/3 + 30*(text.size()-1));
 }
 
-vector<string>* Dialogue::getMessagesForOption(int optionIndex)
+vector<string> Dialogue::getMessagesForOption(int optionIndex)
 {
-	return &messagesForEachOption[optionIndex];
+	return messagesForEachOption[optionIndex];
 }
 
 vector<TextObject*> Dialogue::getAllText()

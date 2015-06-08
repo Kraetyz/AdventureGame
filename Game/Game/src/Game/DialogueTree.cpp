@@ -1,5 +1,4 @@
 #include "DialogueTree.h"
-#include <fstream>
 #include <sstream>
 
 DialogueTree::DialogueTree(string sceneFileName)
@@ -23,7 +22,7 @@ DialogueTree::DialogueTree(string sceneFileName)
 			}
 		}
 	}
-
+	file.close();
 	current = allDialogues[0];
 }
 
@@ -41,13 +40,13 @@ vector<TextObject*> DialogueTree::getCurrentDialogueText()
 	return current->getAllText();
 }
 
-vector<string>* DialogueTree::dialogueOptionChosen(int index)
+vector<string> DialogueTree::dialogueOptionChosen(int index)
 {
-	vector<string>* ret = current->getMessagesForOption(index);
+	vector<string> ret = current->getMessagesForOption(index);
 	//read through messages: switch to new dialogue if prompted
-	if (ret->size() > 0)
+	if (ret.size() > 0)
 	{
-		istringstream ss = istringstream((*ret)[0]);
+		istringstream ss = istringstream(ret[0]);
 		string command;
 		ss >> command;
 		if (command == "GOTO")
