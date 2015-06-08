@@ -1,0 +1,11 @@
+#version 430
+
+in layout(location = 0) vec3 screen_position;
+
+out vec3 position;
+
+void main()
+{
+	gl_Position = vec4(screen_position, 1);
+	position = vec3(screen_position);
+}

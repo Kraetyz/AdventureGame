@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClInclude Include="src\DebugLog.h" />
     <ClInclude Include="src\Engine\AVIstream.h" />
+    <ClInclude Include="src\Engine\BoxObject.h" />
     <ClInclude Include="src\Engine\Engine.h" />
     <ClInclude Include="src\Engine\TextObject.h" />
     <ClInclude Include="src\Game\Dialogue.h" />
@@ -25,6 +26,7 @@
     <ClCompile Include="..\Libs\stbImage\stb_image.c" />
     <ClCompile Include="src\DebugLog.cpp" />
     <ClCompile Include="src\Engine\AVIstream.cpp" />
+    <ClCompile Include="src\Engine\BoxObject.cpp" />
     <ClCompile Include="src\Engine\Engine.cpp" />
     <ClCompile Include="src\Engine\TextObject.cpp" />
     <ClCompile Include="src\Game\Dialogue.cpp" />
@@ -37,6 +39,8 @@
   <ItemGroup>
     <Text Include="shaders\bgFragment.txt" />
     <Text Include="shaders\bgVertex.txt" />
+    <Text Include="shaders\boxFragment.txt" />
+    <Text Include="shaders\boxVertex.txt" />
     <Text Include="shaders\textFragment.txt" />
     <Text Include="shaders\textVertex.txt" />
   </ItemGroup>

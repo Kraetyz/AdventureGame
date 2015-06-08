@@ -1,1 +1,1 @@
-0(10) : error C0000: syntax error, unexpected integer constant at token "<int-const>"
+0(9) : error C0000: syntax error, unexpected integer constant, expecting ',' or ')' at token "<int-const>"

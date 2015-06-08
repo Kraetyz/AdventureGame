@@ -67,7 +67,7 @@ vec2 Dialogue::getScreenPosForText()
 	if (text.size() == 0)
 		return vec2(50, 150);
 	else
-		return vec2(Settings::getWidth()/8, (2*Settings::getHeight())/3 + 20*(text.size()-1));
+		return vec2(Settings::getWidth()/8, (2*Settings::getHeight())/3 + 30*(text.size()-1));
 }
 
 vector<string>* Dialogue::getMessagesForOption(int optionIndex)

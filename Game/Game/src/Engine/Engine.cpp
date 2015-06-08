@@ -12,8 +12,9 @@ Engine::Engine()
 	glClearColor(0, 0, 0, 1);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	buildBgShaderProgram();
+	buildAVIShaderProgram();
 	buildTextShaderProgram();
+	buildBoxShaderProgram();
 
 
 	float screenquad[] =
@@ -28,16 +29,16 @@ Engine::Engine()
 	glBufferData(GL_ARRAY_BUFFER, sizeof(screenquad), screenquad, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	//glEnableVertexAttribArray(0);
-	//glBufferData(GL_ARRAY_BUFFER, sizeof(screenquad), screenquad, GL_STATIC_DRAW); // Set the size and data of our VBO and set it to STATIC_DRAW  
-	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GL_FLOAT), (void*)0);
-	//glBindVertexArray(0);
-
 	loadPNG("font16.png", fontSize16);
 	glGenBuffers(1, &textDataBuffer);
+
+	glGenBuffers(1, &boxBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, boxBuffer);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(screenquad), screenquad, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-void Engine::buildBgShaderProgram()
+void Engine::buildAVIShaderProgram()
 {
 	string vShader = "";
 	vShader = getShader("shaders/bgVertex.txt");
@@ -57,10 +58,10 @@ void Engine::buildBgShaderProgram()
 	glCompileShader(fs);
 	compileErrorPrint(&fs);
 
-	bgProgram = glCreateProgram();
-	glAttachShader(bgProgram, vs);
-	glAttachShader(bgProgram, fs);
-	glLinkProgram(bgProgram);
+	aviProgram = glCreateProgram();
+	glAttachShader(aviProgram, vs);
+	glAttachShader(aviProgram, fs);
+	glLinkProgram(aviProgram);
 }
 
 void Engine::buildTextShaderProgram()
@@ -87,6 +88,33 @@ void Engine::buildTextShaderProgram()
 	glAttachShader(textProgram, vs);
 	glAttachShader(textProgram, fs);
 	glLinkProgram(textProgram);
+}
+
+void Engine::buildBoxShaderProgram()
+{
+	string vShader = "";
+	vShader = getShader("shaders/boxVertex.txt");
+	string fShader = "";
+	fShader = getShader("shaders/boxFragment.txt");
+
+	const char* vertex_shader = vShader.c_str();
+	const char* fragment_shader = fShader.c_str();
+
+	GLuint vs = glCreateShader(GL_VERTEX_SHADER);
+	glShaderSource(vs, 1, &vertex_shader, nullptr);
+	glCompileShader(vs);
+	compileErrorPrint(&vs);
+
+	GLuint fs = glCreateShader(GL_FRAGMENT_SHADER);
+	glShaderSource(fs, 1, &fragment_shader, nullptr);
+	glCompileShader(fs);
+	compileErrorPrint(&fs);
+
+	boxProgram = glCreateProgram();
+	glAttachShader(boxProgram, vs);
+	glAttachShader(boxProgram, fs);
+	glLinkProgram(boxProgram);
+	linkErrorPrint(&boxProgram);
 }
 
 #include <vector>
@@ -164,10 +192,10 @@ string Engine::getShader(const char* filePath)
 	return content;
 }
 
-void Engine::Render(float dT, AVIstream* bg, vector<TextObject*> text)
+void Engine::Render(float dT, AVIstream* bg, vector<TextObject*> text, vector<BoxObject*> boxes)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glUseProgram(bgProgram);
+	glUseProgram(aviProgram);
 	bg->GrabAVIFrame(dT);
 	glBindTexture(GL_TEXTURE_2D, bg->getTex());
 	glBindBuffer(GL_ARRAY_BUFFER, screenQuad);
@@ -178,7 +206,10 @@ void Engine::Render(float dT, AVIstream* bg, vector<TextObject*> text)
 	glDisableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	for (int c=0; c<text.size(); c++)
+	for (int c = 0; c < boxes.size(); c++)
+		RenderTextBox(boxes[c]);
+
+	for (int c = 0; c < text.size(); c++)
 		RenderText(text[c]);
 }
 
@@ -190,11 +221,9 @@ void Engine::RenderText(TextObject* text)
 	text->getBuffer(fontSize, textBuffer);
 
 	glEnableVertexAttribArray(0);
-	//glEnableVertexAttribArray(1);
 	glBindBuffer(GL_ARRAY_BUFFER, textDataBuffer);
 	glBufferData(GL_ARRAY_BUFFER, textBuffer.size() * sizeof(vec2), &textBuffer[0], GL_STATIC_DRAW);
 	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, (void*)0);
-	//glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(vec2) * 2, BUFFER_OFFSET(sizeof(vec2) * 2));
 
 	glBindTexture(GL_TEXTURE_2D, fontSize16);
 
@@ -202,7 +231,29 @@ void Engine::RenderText(TextObject* text)
 	
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glDisableVertexAttribArray(0);
-	//glDisableVertexAttribArray(1);
+}
+
+void Engine::RenderTextBox(BoxObject* box)
+{
+	vec4 borders, color;
+	float* quad = new float[12];
+	box->getBoxAttributes(color, borders, quad);
+
+	glUseProgram(boxProgram);
+	GLuint loc = glGetUniformLocation(boxProgram, "boxColor");
+	glUniform4fv(loc, 1, &color[0]);
+	loc = glGetUniformLocation(boxProgram, "borders");
+	glUniform4fv(loc, 1, &borders[0]);
+
+	glBindBuffer(GL_ARRAY_BUFFER, boxBuffer);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(GL_FLOAT)*12, quad, GL_STATIC_DRAW);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GL_FLOAT), (void*)0);
+
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	glDisableVertexAttribArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	delete[]quad;
 }
 
 bool Engine::loadPNG(string filePath, GLuint &texture)

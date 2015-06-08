@@ -42,6 +42,9 @@
     <ClInclude Include="src\Settings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Engine\BoxObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Game\Game.cpp">
@@ -77,6 +80,9 @@
     <ClCompile Include="src\Settings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Engine\BoxObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="shaders\bgFragment.txt">
@@ -89,6 +95,12 @@
       <Filter>Resource Files</Filter>
     </Text>
     <Text Include="shaders\textVertex.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="shaders\boxFragment.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="shaders\boxVertex.txt">
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>

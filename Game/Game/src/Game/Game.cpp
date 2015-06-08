@@ -46,6 +46,7 @@ int Game::update(float dT)
 		cursorMessage = -1;
 		currentScene->sceneClick(1, 0);
 	}
+	engine->Render(dT, currentScene->getBackground(), currentScene->getText(), currentScene->getBoxes());
 	return 0;
 }
 
@@ -66,7 +67,6 @@ void Game::mainLoop()
 		lastClock = clock;
 
 		update(deltaTime);
-		engine->Render(deltaTime, currentScene->getBackground(), currentScene->getText());
 		glfwSwapBuffers(wnd);
 	}
 }

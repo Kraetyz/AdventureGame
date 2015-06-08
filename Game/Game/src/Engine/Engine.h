@@ -4,6 +4,7 @@
 #include "../DebugLog.h"
 #include "AVIstream.h"
 #include "TextObject.h"
+#include "BoxObject.h"
 #include <string>
 
 #include <GL\glew.h>
@@ -14,11 +15,13 @@ using namespace std;
 class Engine
 {
 private:
-	GLuint bgProgram;
+	GLuint aviProgram;
 	GLuint textProgram;
+	GLuint boxProgram;
 	string getShader(const char* filePath);
-	void buildBgShaderProgram();
+	void buildAVIShaderProgram();
 	void buildTextShaderProgram();
+	void buildBoxShaderProgram();
 	void compileErrorPrint(GLuint* shader);
 	void linkErrorPrint(GLuint* program);
 
@@ -26,10 +29,13 @@ private:
 	GLuint fontSize16;
 	bool loadPNG(string filePath, GLuint &texture);
 	void RenderText(TextObject* text);
+	void RenderTextBox(BoxObject* box);
+
 	GLuint textDataBuffer;
+	GLuint boxBuffer;
 public:
 	Engine();
-	void Render(float dT, AVIstream* bg, vector<TextObject*> text);
+	void Render(float dT, AVIstream* bg, vector<TextObject*> text, vector<BoxObject*> boxes);
 };
 
 #endif
