@@ -37,7 +37,7 @@ private:
 	HDC hdc = CreateCompatibleDC(0);	// Creates A Compatible Device Context
 	unsigned char* data = 0;			// Pointer To Our Resized Image
 
-	void flipIt(void* buffer);
+	//void flipIt(void* buffer);
 	void openAVI(std::string szFile);
 
 	GLuint tex;

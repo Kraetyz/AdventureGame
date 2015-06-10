@@ -23,11 +23,11 @@ void AVIstream::genTexture()
 
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, TEXWIDTH, TEXHEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, TEXWIDTH, TEXHEIGHT, 0, GL_BGR, GL_UNSIGNED_BYTE, data);
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-void AVIstream::flipIt(void* buffer)                       // Flips The Red And Blue Bytes (256x256)
+/*void AVIstream::flipIt(void* buffer)                       // Flips The Red And Blue Bytes (256x256)
 {
 	void* b = buffer;                       // Pointer To The Buffer
 	__asm                               // Assembler Code To Follow
@@ -44,7 +44,7 @@ void AVIstream::flipIt(void* buffer)                       // Flips The Red And 
 			dec ecx                     // Decreases Our Loop Counter
 			jnz label                   // If Not Zero Jump Back To Label
 	}
-}
+}*/
 
 void AVIstream::openAVI(std::string szFile)
 {
@@ -103,12 +103,10 @@ void AVIstream::GrabAVIFrame(float dT)									// Grabs A Frame From The Stream
 	// Convert Data To Requested Bitmap Format
 	DrawDibDraw(hdd, hdc, 0, 0, TEXWIDTH, TEXHEIGHT, lpbi, pdata, 0, 0, width, height, 0);
 
-	flipIt(data);												// Swap The Red And Blue Bytes (GL Compatability)
-
 	// Update The Texture
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, tex);
-	glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, TEXWIDTH, TEXHEIGHT, GL_RGB, GL_UNSIGNED_BYTE, data);
+	glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, TEXWIDTH, TEXHEIGHT, GL_BGR, GL_UNSIGNED_BYTE, data);
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 

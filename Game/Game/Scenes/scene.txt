@@ -17,6 +17,12 @@ This is second option.
 GOTO 2
 #
 .
+And the third option.
+#
+%
+GOTO 3
+#
+.
 Maybe you'd prefer this instead?
 #
 %
