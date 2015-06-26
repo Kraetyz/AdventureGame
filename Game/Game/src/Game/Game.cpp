@@ -15,7 +15,6 @@ void Game::cursorCallback(GLFWwindow* window, int button, int action, int mods)
 	if (action == GLFW_PRESS)
 	{
 		cursorMessage = button;
-		glfwGetCursorPos(window, &cursorX, &cursorY);
 	}
 }
 
@@ -35,6 +34,7 @@ Game::~Game()
 
 int Game::update(float dT)
 {
+	currentScene->update(cursorX, cursorY);
 	if (cursorMessage == GLFW_MOUSE_BUTTON_LEFT)
 	{
 		printf("Click! Cursor position is (%f, %f)\n", cursorX, cursorY);
@@ -52,7 +52,7 @@ int Game::update(float dT)
 
 void Game::mainLoop()
 {
-	currentScene = new Scene();
+	currentScene = new Scene("scene.txt");
 
 	clock_t start = clock();
 	float deltaTime = 0.0f;
@@ -66,6 +66,7 @@ void Game::mainLoop()
 		deltaTime = clock - lastClock;
 		lastClock = clock;
 
+		glfwGetCursorPos(wnd, &cursorX, &cursorY);
 		update(deltaTime);
 		glfwSwapBuffers(wnd);
 	}

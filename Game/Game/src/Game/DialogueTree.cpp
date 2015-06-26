@@ -1,4 +1,5 @@
 #include "DialogueTree.h"
+#include "StorylineTest.h"
 #include <sstream>
 
 DialogueTree::DialogueTree(string sceneFileName)
@@ -20,6 +21,16 @@ DialogueTree::DialogueTree(string sceneFileName)
 				temp = new Dialogue(file);
 				allDialogues.push_back(temp);
 			}
+			else if (line[0] == '<')
+			{
+				getline(file, line);
+				bgAviName = line;
+			}
+			else if (line[0] == '>')
+			{
+				getline(file, line);
+				charName = line;
+			}
 		}
 	}
 	file.close();
@@ -37,25 +48,56 @@ DialogueTree::~DialogueTree()
 
 vector<TextObject*> DialogueTree::getCurrentDialogueText()
 {
-	return current->getAllText();
+	vector<Button*> buttons = current->getAllButtons();
+	vector<TextObject*> text;
+	text.push_back(current->getTextMessage());
+	for (int c = 0; c < buttons.size(); c++)
+		text.push_back(buttons[c]->getTextObject());
+	return text;
+}
+
+vector<BoxObject*> DialogueTree::getBoxes()
+{
+	vector<Button*> buttons = current->getAllButtons();
+	vector<BoxObject*> boxes;
+	for (int c = 0; c < buttons.size(); c++)
+		boxes.push_back(buttons[c]->getBoxObject());
+	return boxes;
 }
 
 vector<string> DialogueTree::dialogueOptionChosen(int index)
 {
 	vector<string> ret = current->getMessagesForOption(index);
 	//read through messages: switch to new dialogue if prompted
-	if (ret.size() > 0)
+
+	int i = -1;
+
+	for (int c = 0; c < ret.size(); c++)
 	{
-		istringstream ss = istringstream(ret[0]);
-		string command;
-		ss >> command;
-		if (command == "GOTO")
+		istringstream ss = istringstream(ret[c]);
+		string token;
+		ss >> token;
+		if (token == "GIVE")
 		{
-			string index;
-			ss >> index;
-			int i = atoi(index.c_str());
-			current = allDialogues[i];
+			string varName;
+			ss >> varName;
+			int val;
+			ss >> token;
+			val = atoi(token.c_str());
+			Storyline::increaseVariable(varName, val);
+		}
+		else if (token == "GOTO")
+		{
+			ss >> token;
+			i = atoi(token.c_str());
 		}
 	}
+
+	if (i != -1)
+	{
+		current = allDialogues[i];
+		current->setupCurrentText();
+	}
+
 	return ret;
 }

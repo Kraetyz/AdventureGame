@@ -1,0 +1,11 @@
+> AREA1
+!
+scene.txt
+!
+<
+
+> AREA2
+!
+face.txt
+!
+<

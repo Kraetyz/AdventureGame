@@ -1,8 +1,8 @@
 /Comment line
 <
-villagehq.avi
+face2.avi
 >
-Girl by docks
+Faceman
 !
 .
 Hello friend. I am happy to see you.
@@ -34,6 +34,19 @@ Maybe you'd prefer this instead?
 %
 GOTO 4
 #
+.
+Filler option number 1
+#
+%
+GOTO 2
+#
+.
+Filler option numero second.
+I could even make it cool like this.
+#
+%
+GOTO 2
+#
 !
 /Option 1 below
 !
@@ -45,7 +58,6 @@ Go back to start.
 #
 %
 GOTO 0
-GIVE TEST 1
 #
 !
 /Option 2 below
@@ -76,7 +88,6 @@ Go back to start.
 #
 %
 GOTO 0
-GIVE TEST2 1
 #
 !
 /Option 4

@@ -25,6 +25,11 @@ public:
 	{
 		return borders;
 	}
+
+	void setColor(float r, float g, float b, float a)
+	{
+		color = vec4(r, g, b, a);
+	}
 };
 
 #endif

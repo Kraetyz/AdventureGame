@@ -6,12 +6,29 @@ TextObject::TextObject(string str, int fontSize, vec2 screenPos)
 
 	screenPos.y = Settings::getHeight() - screenPos.y;
 	pos = screenPos;
+	rightLimit = 0; bottomLimit = Settings::getHeight();
 
-	setupText(str, screenPos);
+	setupText(str, pos);
+}
+
+TextObject::TextObject(TextObject* obj, vec2 screenPos)
+{
+	size = obj->size;
+	if (screenPos.x != -1 || screenPos.y != -1)
+	{
+		screenPos.y = Settings::getHeight() - screenPos.y;
+		pos = screenPos;
+	}
+	else
+		pos = obj->pos;
+
+	setupText(obj->text, pos);
 }
 
 void TextObject::setupText(string str, vec2 screenPos)
 {
+	text = str;
+
 	vec2 vertex_up_right;
 	vec2 vertex_down_right;
 	vec2 vertex_up_left;
@@ -33,6 +50,10 @@ void TextObject::setupText(string str, vec2 screenPos)
 			vertex_up_right -= halfScreen;
 			vertex_up_right /= halfScreen;
 			vertex_down_right = vec2(screenPos.x + (c - lineBreakPos)*size + size, screenPos.y - (size)*nrOfLineBreaks);
+			if (vertex_down_right.x > rightLimit)
+				rightLimit = vertex_down_right.x;
+			if (vertex_down_right.y < bottomLimit)
+				bottomLimit = vertex_down_right.y;
 			vertex_down_right -= halfScreen;
 			vertex_down_right /= halfScreen;
 			vertex_up_left = vec2(screenPos.x + (c - lineBreakPos)*size, screenPos.y + size - (size)*nrOfLineBreaks);

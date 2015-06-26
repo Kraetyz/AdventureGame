@@ -26,10 +26,14 @@ private:
 	TextObject* characterName;
 
 	vector<BoxObject*> sceneBoxes;
+	BoxObject* charBox;
+	BoxObject* textBox;
 	void clearBoxes();
-	void setupBoxes(int nrOfTextObjects);
+	void setupBoxes();
+
+	bool intersectWithSceneBox(int index, vec2 mousePos);
 public:
-	Scene();
+	Scene(string scenePath);
 	~Scene();
 
 	AVIstream* getBackground();
@@ -37,6 +41,8 @@ public:
 	vector<BoxObject*> getBoxes();
 
 	void sceneClick(int x, int y);
+
+	void update(int mx, int my);
 };
 
 #endif

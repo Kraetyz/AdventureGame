@@ -3,6 +3,7 @@
 
 #include "../DebugLog.h"
 #include "../Engine/TextObject.h"
+#include "Button.h"
 #include <string>
 #include <vector>
 #include <fstream>
@@ -15,23 +16,34 @@ using namespace glm;
 class Dialogue
 {
 private:
-	vector<string> messagesForEachOption[4];
-	vector<TextObject*> text; //0 = Talky text box. 1-4 = Options
+	TextObject* bigText; //The big text box
+
+	vector<vector<string>> messagesForEachOption; //The messages held by each dialogue option
+	vector<TextObject*> text; //Potential options for the dialogue
+
+	vector<Button*> currentButtons;
+	vector<vector<string>> currentMessagesForEachOption;
 
 	void createTextObject(ifstream &file);
 	void addMessagesForOption(ifstream &file);
+	vec2 getScreenPosForText(bool isCurrent = false);
 
-	vec2 getScreenPosForText();
+	void clearCurrentButtons();
+
+	bool meetsRequirements(vector<string> messages);
 public:
 	Dialogue(ifstream &file);
 	~Dialogue();
 
 	int getNrOfOptions()
 	{
-		return text.size() - 1;
+		return currentButtons.size();
 	}
 	vector<string> getMessagesForOption(int optionIndex);
-	vector<TextObject*> getAllText();
+	vector<Button*> getAllButtons();
+	TextObject* getTextMessage(){ return bigText; }
+
+	void setupCurrentText();
 };
 
 #endif

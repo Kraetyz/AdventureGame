@@ -214,7 +214,7 @@ void Engine::Render(float dT, AVIstream* bg, vector<TextObject*> text, vector<Bo
 
 void Engine::RenderText(TextObject* text)
 {
-	glUseProgram(textProgram); //Not working?
+	glUseProgram(textProgram);
 	int fontSize=0;
 	vector<vec2> textBuffer;
 	text->getBuffer(fontSize, textBuffer);

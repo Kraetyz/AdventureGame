@@ -17,17 +17,26 @@ class DialogueTree
 private:
 	Dialogue* current;
 	vector<Dialogue*> allDialogues;
+	string charName;
+	string bgAviName;
 public:
 	DialogueTree(string sceneFileName);
 	~DialogueTree();
 
 	vector<TextObject*> getCurrentDialogueText();
+	vector<BoxObject*> getBoxes();
 
 	vector<string> dialogueOptionChosen(int index);
 
 	int currentNrOfOptions()
 	{
 		return current->getNrOfOptions();
+	}
+
+	void giveInfoToScene(string &name, string &avipath)
+	{
+		name = charName;
+		avipath = bgAviName;
 	}
 };
 
